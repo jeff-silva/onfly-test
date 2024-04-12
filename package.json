@@ -1,0 +1,10 @@
+{
+  "name": "onfly-test",
+  "version": "1.0.0",
+  "repository": "https://github.com/jeff-silva/onfly-test.git",
+  "author": "Jeferson Silva <jeferson.i.silva@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "bash ./bin/dev.sh"
+  }
+}

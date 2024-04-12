@@ -1,0 +1,51 @@
+version: "3.8"
+
+networks:
+  sail:
+
+volumes:
+  sail-mysql:
+  sail-redis:
+    driver: local
+
+services:
+  backend:
+    build: ./backend/.docker/
+    env_file: ./backend/.env
+    volumes:
+      - ./backend:/app
+    ports:
+      - "${SERVICE_BACKEND_PORT:-8000}:8000"
+    networks:
+      - sail
+    depends_on:
+      - mysql
+    extra_hosts:
+      - host.docker.internal:host-gateway
+
+  mysql:
+    build: ./mysql
+    env_file: ./mysql/.env
+    ports:
+      - "${SERVICE_MYSQL_PORT:-3306}:3306"
+    networks:
+      - sail
+
+  phpmyadmin:
+    build: ./phpmyadmin
+    env_file: ./phpmyadmin/.env
+    ports:
+      - "${SERVICE_PMA_PORT:-8081}:80"
+    networks:
+      - sail
+    depends_on:
+      - mysql
+
+  frontend:
+    build: ./frontend/.docker
+    env_file: ./frontend/.env
+    command: bash -c "yarn install && yarn dev"
+    ports:
+      - ${SERVICE_FRONTEND_PORT:-3000}:3000
+    volumes:
+      - ./frontend:/app
