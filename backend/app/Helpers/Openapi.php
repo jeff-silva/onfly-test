@@ -55,7 +55,7 @@ class Openapi
         foreach ($methods as $method) {
             $method = strtolower($method);
 
-            $this->paths[$path][$method]['parameters'] = array_merge([
+            $this->paths[$path][$method]['parameters'][] = array_merge([
                 'name' => '',
                 'in' => null,
                 'description' => '',

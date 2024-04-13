@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\AppConfig;
 use App\Exceptions\ApiError;
 use Illuminate\Http\Request;
-use App\Annotations\Openapi;
 use App\Models\AppUserNotification;
 use Illuminate\Support\Facades\Route;
+use ReflectionClass;
 
 class AppController extends Controller
 {
@@ -16,7 +16,6 @@ class AppController extends Controller
         return [];
     }
 
-    #[Openapi\Param(['name' => 'test', 'in' => 'query'])]
     public function openapi()
     {
         $api = new \App\Helpers\Openapi;
@@ -30,6 +29,14 @@ class AppController extends Controller
                 $path = '/' . str_replace('api/', '', $route->uri);
 
                 $api->pathAdd(methods: $route->methods, path: $path, summary: '--summary', tags: [$controller]);
+
+                $annotations = (new \ReflectionClass($controller_class))->getMethod($controller_method)->getAttributes();
+                foreach ($annotations as $annotation) {
+                    // $a = (new ReflectionClass($annotation->getName()))->newInstanceArgs($annotation->getArguments());
+                    $api->pathParamAdd(methods: $route->methods, path: $path, data: $annotation->getArguments()[0]);
+                    // dump($annotation->getArguments());
+                }
+
                 // dump(compact('controller', 'controller_class', 'controller_method'));
                 // dump($route);
             }

@@ -8,4 +8,13 @@ class Param
     {
         //
     }
+
+    // public function __invoke()
+    // {
+    //     return [
+    //         'dsn' => 1,
+    //         'user' => 2,
+    //         'pass' => 3,
+    //     ];
+    // }
 }
