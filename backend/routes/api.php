@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\AppController;
+use App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -8,4 +8,6 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::get('/app/openapi', [AppController::class, 'openapi']);
+Route::get('/app/openapi', [Controllers\AppController::class, 'openapi']);
+
+Route::apiResource('financial_expense', Controllers\FinancialExpenseController::class);
