@@ -49,3 +49,9 @@ services:
       - ${SERVICE_FRONTEND_PORT:-3000}:3000
     volumes:
       - ./frontend:/app
+
+  swagger:
+    build: ./swagger
+    env_file: ./swagger/.env
+    ports:
+      - "${SERVICE_SWAGGER_PORT:-8100}:8080"
