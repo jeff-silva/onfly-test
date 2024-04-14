@@ -13,9 +13,9 @@ class FinancialExpenseController extends Controller
     #[Openapi\Param(['name' => 'order_by', 'in' => 'query'])]
     #[Openapi\Param(['name' => 'order', 'in' => 'query'])]
     #[Openapi\Response(200, ['pagination' => 'object', 'data' => 'array'])]
-    public function index()
+    public function index(Request $request)
     {
-        return 'index';
+        return FinancialExpense::searchPaginated($request);
     }
 
     #[Openapi\Param(['name' => 'description', 'in' => 'body', 'type' => 'string'])]
