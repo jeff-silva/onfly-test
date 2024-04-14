@@ -29,6 +29,40 @@ class Openapi
         return self::$data;
     }
 
+    static function pathInit($methods, $path)
+    {
+        if (!isset(self::$data['paths'][$path])) {
+            self::$data['paths'][$path] = [];
+        }
+
+        $methods = self::pathMethods($methods);
+
+        foreach ($methods as $method) {
+            if (isset(self::$data['paths'][$path][$method])) continue;
+            self::$data['paths'][$path][$method] = [
+                'tags' => [],
+                'operationId' => "{$method}:{$path}",
+                'costumes' => ['multipart/form-data'],
+                'produces' => ['application/json'],
+                'parameters' => [],
+                'responses' => [],
+            ];
+        }
+    }
+
+    static function pathMethods($methods)
+    {
+        foreach ($methods as $index => $method) {
+            $method = strtolower($method);
+            if (!in_array($method, ['get', 'post', 'put', 'delete'])) {
+                unset($methods[$index]);
+                continue;
+            }
+            $methods[$index] = $method;
+        }
+        return array_values($methods);
+    }
+
     static function pathAdd($methods, $path, $tags = [])
     {
         if (!isset(self::$data['paths'][$path])) {
@@ -46,7 +80,27 @@ class Openapi
                 'costumes' => ['multipart/form-data'],
                 'produces' => ['application/json'],
                 'parameters' => [],
-                'responses' => [],
+                'responses' => [
+                    '500' => [
+                        'content' => [
+                            'application/json' => [
+                                'schema' => [
+                                    'properties' => [
+                                        'code' => [
+                                            'type' => 'string',
+                                        ],
+                                        'message' => [
+                                            'type' => 'string',
+                                        ],
+                                        'fields' => [
+                                            'type' => 'object',
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ];
         }
 
@@ -116,6 +170,28 @@ class Openapi
             }
 
             self::$data['paths'][$path][$method]['parameters'][] = $data;
+        }
+    }
+
+    static function pathResponseAdd($methods, $path, $code, $data)
+    {
+        self::pathInit($methods, $path);
+        $methods = self::pathMethods($methods);
+
+        foreach ($methods as $method) {
+            $properties = [];
+            foreach ($data as $key => $type) {
+                $properties[$key] = ['type' => $type];
+            }
+            self::$data['paths'][$path][$method]['responses'][$code] = [
+                'content' => [
+                    'application/json' => [
+                        'schema' => [
+                            'properties' => $properties,
+                        ],
+                    ],
+                ],
+            ];
         }
     }
 }
