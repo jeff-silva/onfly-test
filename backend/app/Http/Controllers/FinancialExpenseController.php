@@ -16,21 +16,32 @@ class FinancialExpenseController extends Controller
         return 'index';
     }
 
+    #[Openapi\Param(['name' => 'description', 'in' => 'body'])]
+    #[Openapi\Param(['name' => 'date', 'in' => 'body'])]
+    #[Openapi\Param(['name' => 'user_id', 'in' => 'body'])]
+    #[Openapi\Param(['name' => 'amount', 'in' => 'body'])]
     public function store()
     {
         return 'store';
     }
 
+    #[Openapi\Param(['name' => 'id', 'in' => 'path'])]
     public function show()
     {
         return 'show';
     }
 
+    #[Openapi\Param(['name' => 'id', 'in' => 'path'])]
+    #[Openapi\Param(['name' => 'description', 'in' => 'body'])]
+    #[Openapi\Param(['name' => 'date', 'in' => 'body'])]
+    #[Openapi\Param(['name' => 'user_id', 'in' => 'body'])]
+    #[Openapi\Param(['name' => 'amount', 'in' => 'body'])]
     public function update()
     {
         return 'update';
     }
 
+    #[Openapi\Param(['name' => 'id', 'in' => 'path'])]
     public function destroy()
     {
         return 'destroy';

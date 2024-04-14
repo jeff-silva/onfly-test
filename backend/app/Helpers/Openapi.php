@@ -4,35 +4,44 @@ namespace App\Helpers;
 
 class Openapi
 {
-    public $openapi = '3.0.3';
-    public $info = [
-        'version' => '1.0.0',
-        'title' => 'App Name',
-        'contact' => [
-            'email' => 'main@grr.la',
+    static $data = [
+        'openapi' => '3.0.3',
+        'host' => '',
+        'basePath' => '/api',
+        'info' => [
+            'version' => '1.0.0',
+            'title' => 'App Name',
+            'contact' => [
+                'email' => 'main@grr.la',
+            ],
         ],
+        'servers' => [],
+        'tags' => [],
+        'paths' => [],
     ];
-    public $servers = [];
-    public $tags = [];
-    public $paths = [];
 
-    public function __construct()
+    static function getData()
     {
-        $this->servers[] = ['url' => \URL::to('/api')];
+        self::$data['servers'] = [
+            ['url' => \URL::to('/api')],
+        ];
+        // self::$data['host'] = \URL::to('/api');
+        return self::$data;
     }
 
-    public function pathAdd($methods, $path, $summary, $tags = [])
+    static function pathAdd($methods, $path, $tags = [])
     {
-        if (!isset($this->paths[$path])) {
-            $this->paths[$path] = [];
+        if (!isset(self::$data['paths'][$path])) {
+            self::$data['paths'][$path] = [];
         }
 
         foreach ($methods as $method) {
             $method = strtolower($method);
             if (!in_array($method, ['get', 'post', 'put', 'delete'])) continue;
-            $this->paths[$path][$method] = [
+
+            self::$data['paths'][$path][$method] = [
                 'tags' => $tags,
-                'summary' => $summary,
+                // 'summary' => $summary,
                 'operationId' => "{$method}:{$path}",
                 'costumes' => ['multipart/form-data'],
                 'produces' => ['application/json'],
@@ -42,20 +51,39 @@ class Openapi
         }
 
         foreach ($tags as $tag) {
-            $this->tags[$tag] = $tag;
+            self::$data['tags'][$tag] = $tag;
         }
     }
 
-    public function pathParamAdd($methods, $path, $data = [])
+    static function pathMerge($methods, $path, $data = [])
     {
-        if (!isset($this->paths[$path])) {
-            $this->paths[$path] = [];
+        if (!isset(self::$data['paths'][$path])) {
+            self::$data['paths'][$path] = [];
         }
 
         foreach ($methods as $method) {
             $method = strtolower($method);
+            if (!in_array($method, ['get', 'post', 'put', 'delete'])) continue;
 
-            $this->paths[$path][$method]['parameters'][] = array_merge([
+            if (!isset(self::$data['paths'][$path][$method])) {
+                self::$data['paths'][$path][$method] = [];
+            }
+
+            self::$data['paths'][$path][$method] = array_merge(self::$data['paths'][$path][$method], $data);
+        }
+    }
+
+    static function pathParamAdd($methods, $path, $data = [])
+    {
+        if (!isset(self::$data['paths'][$path])) {
+            self::$data['paths'][$path] = [];
+        }
+
+        foreach ($methods as $method) {
+            $method = strtolower($method);
+            if (!in_array($method, ['get', 'post', 'put', 'delete'])) continue;
+
+            self::$data['paths'][$path][$method]['parameters'][] = array_merge([
                 'name' => '',
                 'in' => null,
                 'description' => '',
@@ -63,11 +91,5 @@ class Openapi
                 'type' => 'null',
             ], $data);
         }
-    }
-
-    public function toArray()
-    {
-        $this->tags = array_values($this->tags);
-        return (array) $this;
     }
 }

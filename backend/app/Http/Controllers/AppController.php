@@ -7,6 +7,7 @@ use App\Exceptions\ApiError;
 use Illuminate\Http\Request;
 use App\Models\AppUserNotification;
 use Illuminate\Support\Facades\Route;
+use App\Helpers;
 use ReflectionClass;
 
 class AppController extends Controller
@@ -18,8 +19,6 @@ class AppController extends Controller
 
     public function openapi()
     {
-        $api = new \App\Helpers\Openapi;
-
         foreach (Route::getRoutes() as $route) {
             if (!str_starts_with($route->uri, 'api/')) continue;
 
@@ -28,13 +27,12 @@ class AppController extends Controller
                 $controller = preg_replace('/Controller.+/', '', \Arr::last(explode('\\', $controller_class)));
                 $path = '/' . str_replace('api/', '', $route->uri);
 
-                $api->pathAdd(methods: $route->methods, path: $path, summary: '--summary', tags: [$controller]);
+                Helpers\Openapi::pathAdd(methods: $route->methods, path: $path, tags: [$controller]);
 
-                $annotations = (new \ReflectionClass($controller_class))->getMethod($controller_method)->getAttributes();
+                $annotations = (new ReflectionClass($controller_class))->getMethod($controller_method)->getAttributes();
                 foreach ($annotations as $annotation) {
-                    // $a = (new ReflectionClass($annotation->getName()))->newInstanceArgs($annotation->getArguments());
-                    $api->pathParamAdd(methods: $route->methods, path: $path, data: $annotation->getArguments()[0]);
-                    // dump($annotation->getArguments());
+                    $arguments = [$route->methods, $path, ...$annotation->getArguments()];
+                    $a = (new ReflectionClass($annotation->getName()))->newInstanceArgs($arguments);
                 }
 
                 // dump(compact('controller', 'controller_class', 'controller_method'));
@@ -42,7 +40,7 @@ class AppController extends Controller
             }
         }
 
-        return $api->toArray();
+        return Helpers\Openapi::getData();
 
         // $openapi = [
         //     'openapi' => '3.0.3',

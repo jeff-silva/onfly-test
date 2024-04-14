@@ -4,17 +4,8 @@ namespace App\Annotations\Openapi;
 
 class Param
 {
-    public function __construct($data = [])
+    public function __construct($methods, $path, $data = [])
     {
-        //
+        \App\Helpers\Openapi::pathParamAdd($methods, $path, $data);
     }
-
-    // public function __invoke()
-    // {
-    //     return [
-    //         'dsn' => 1,
-    //         'user' => 2,
-    //         'pass' => 3,
-    //     ];
-    // }
 }
