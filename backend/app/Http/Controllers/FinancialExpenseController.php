@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Annotations\Openapi;
+use Illuminate\Http\Request;
+use App\Models\FinancialExpense;
 
 class FinancialExpenseController extends Controller
 {
@@ -16,34 +17,36 @@ class FinancialExpenseController extends Controller
         return 'index';
     }
 
-    #[Openapi\Param(['name' => 'description', 'in' => 'body'])]
-    #[Openapi\Param(['name' => 'date', 'in' => 'body'])]
-    #[Openapi\Param(['name' => 'user_id', 'in' => 'body'])]
-    #[Openapi\Param(['name' => 'amount', 'in' => 'body'])]
-    public function store()
+    #[Openapi\Param(['name' => 'description', 'in' => 'body', 'type' => 'string'])]
+    #[Openapi\Param(['name' => 'date', 'in' => 'body', 'type' => 'string', 'format' => 'date-time'])]
+    #[Openapi\Param(['name' => 'user_id', 'in' => 'body', 'type' => 'number', 'format' => 'int32'])]
+    #[Openapi\Param(['name' => 'amount', 'in' => 'body', 'type' => 'number', 'format' => 'double'])]
+    public function store(Request $request)
     {
-        return 'store';
+        return FinancialExpense::create($request->all());
     }
 
     #[Openapi\Param(['name' => 'id', 'in' => 'path'])]
-    public function show()
+    public function show($id, Request $request)
     {
-        return 'show';
+        return FinancialExpense::findOrFail($id);
     }
 
     #[Openapi\Param(['name' => 'id', 'in' => 'path'])]
-    #[Openapi\Param(['name' => 'description', 'in' => 'body'])]
-    #[Openapi\Param(['name' => 'date', 'in' => 'body'])]
-    #[Openapi\Param(['name' => 'user_id', 'in' => 'body'])]
-    #[Openapi\Param(['name' => 'amount', 'in' => 'body'])]
-    public function update()
+    #[Openapi\Param(['name' => 'description', 'in' => 'body', 'type' => 'string'])]
+    #[Openapi\Param(['name' => 'date', 'in' => 'body', 'type' => 'string', 'format' => 'date-time'])]
+    #[Openapi\Param(['name' => 'user_id', 'in' => 'body', 'type' => 'number', 'format' => 'int32'])]
+    #[Openapi\Param(['name' => 'amount', 'in' => 'body', 'type' => 'number', 'format' => 'double'])]
+    public function update(Request $request, $id)
     {
-        return 'update';
+        $model = FinancialExpense::findOrFail($id);
+        return $model->update($request->all());
     }
 
     #[Openapi\Param(['name' => 'id', 'in' => 'path'])]
-    public function destroy()
+    public function destroy($id, Request $request)
     {
-        return 'destroy';
+        $model = FinancialExpense::findOrFail($id);
+        return $model->delete();
     }
 }

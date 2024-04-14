@@ -79,17 +79,43 @@ class Openapi
             self::$data['paths'][$path] = [];
         }
 
+        $data = array_merge([
+            'name' => '',
+            'in' => null,
+            'description' => '',
+            'required' => false,
+            'type' => 'string',
+            'format' => '',
+        ], $data);
+
         foreach ($methods as $method) {
             $method = strtolower($method);
             if (!in_array($method, ['get', 'post', 'put', 'delete'])) continue;
 
-            self::$data['paths'][$path][$method]['parameters'][] = array_merge([
-                'name' => '',
-                'in' => null,
-                'description' => '',
-                'required' => false,
-                'type' => 'null',
-            ], $data);
+            if (isset($data['in']) and $data['in'] == 'body') {
+                if (!isset(self::$data['paths'][$path][$method]['requestBody'])) {
+                    self::$data['paths'][$path][$method]['requestBody'] = [
+                        'required' => true,
+                        'content' => [
+                            'application/json' => [
+                                'schema' => [
+                                    'type' => 'object',
+                                    'properties' => [],
+                                ],
+                            ],
+                        ],
+                    ];
+                }
+
+                self::$data['paths'][$path][$method]['requestBody']['content']['application/json']['schema']['properties'][$data['name']] = [
+                    'type' => $data['type'],
+                    'format' => $data['format'],
+                ];
+
+                continue;
+            }
+
+            self::$data['paths'][$path][$method]['parameters'][] = $data;
         }
     }
 }
