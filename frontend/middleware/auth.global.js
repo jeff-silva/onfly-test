@@ -10,7 +10,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         clearInterval(i);
 
         if (app.ready && app.data && !app.data.user) {
-          return navigateTo(`/auth?redirect=${to.path}`);
+          return navigateTo(`/auth?redirect=${to.fullPath}`);
         }
       }, 10);
     } catch(err) {}

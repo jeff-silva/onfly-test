@@ -3,6 +3,7 @@
         <nuxt-layout name="admin" title="Despesas" subtitle="Pesquisar">
             <q-table
                 row-key="id"
+                virtual-scroll
                 :loading="search.busy"
                 :rows="search.response.data"
                 :columns="[
@@ -11,6 +12,14 @@
                     { name: 'amount', field: 'amount', align: 'left', label: 'Valor' },
                     { name: 'actions', label: '', width: '100px' },
                 ]"
+                :pagination="{
+                    page: search.params.page,
+                    rowsPerPage: search.params.per_page,
+                }"
+                @update:pagination="(ev) => {
+                    search.params.per_page = ev.rowsPerPage;
+                    search.submit();
+                }"
             >
                 <template #body-cell-actions="props">
                     <q-td :props="props">
@@ -19,6 +28,9 @@
                     </q-td>
                 </template>
             </q-table>
+
+            <pre>params: {{ search.params }}</pre>
+            <pre>pagination: {{ search.response.pagination }}</pre>
 
             <template #sidebar>
                 <form @submit.prevent="search.submit()" class="column" style="gap: 10px;">
@@ -52,12 +64,6 @@
                     <q-btn label="Novo" to="/admin/financial_expense/edit" />
                 </div>
             </template>
-            
-            <template #footer>
-                <q-btn label="Aaa" flat />
-                <q-btn label="Aaa" flat />
-                <q-btn label="Aaa" flat />
-            </template>
         </nuxt-layout>
     </div>
 </template>
@@ -66,7 +72,7 @@
 const search = useRequest({
     method: 'get',
     url: 'api://financial_expense',
-    params: { q: '' },
+    params: { q: '', page: 1, per_page: 20 },
     response: {
         pagination: {},
         data: [],

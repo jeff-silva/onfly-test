@@ -2,7 +2,7 @@
     <div>
         <nuxt-layout name="admin" title="Despesas" subtitle="Editar">
             <div class="row q-col-gutter-md">
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-lg-6">
                     <app-user-select label="Usuário" v-model="save.data.user_id" />
                     <br>
 
@@ -22,10 +22,10 @@
                         </template>
                     </q-field>
                 </div>
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-lg-6">
                     <div>Data lançamento</div>
                     <q-date
-                        landscape
+                        :landscape="false"
                         style="width: 100%;"
                         mask="YYYY-MM-DD 00:00:00"
                         v-model="save.data.date"

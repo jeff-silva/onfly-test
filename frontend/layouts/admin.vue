@@ -42,19 +42,32 @@
                     <div class="col">
                         <slot></slot>
                     </div>
-                    <div class="col-3 q-pl-md">
+                    <div class="col-3 q-pl-md" v-if="$q.screen.gt.md">
                         <slot name="sidebar"></slot>
                     </div>
                 </div>
             </q-page>
         </q-page-container>
 
+        <q-drawer
+            v-if="!$q.screen.gt.md"
+            v-model="actions.drawerVisible"
+            show-if-above
+            :breakpoint="700"
+            bordered
+            side="right"
+        >
+            <q-scroll-area class="fit q-pa-sm">
+                <slot name="sidebar"></slot>
+            </q-scroll-area>
+        </q-drawer>
+
         <q-page-sticky position="bottom-right" :offset="[10, 50]">
             <slot name="actions"></slot>
         </q-page-sticky>
         
         <q-page-sticky position="bottom" class="bg-blue-grey-1">
-            <slot name="footer"></slot>
+            <q-btn flat label="Ações" @click="actions.drawer()" v-if="!$q.screen.gt.md" />
         </q-page-sticky>
     </q-layout>
   </template>
@@ -102,5 +115,12 @@ const nav = reactive({
             },
         },
     ],
+});
+
+const actions = reactive({
+    drawerVisible: false,
+    drawer(value = null) {
+        this.drawerVisible = value===null ? !this.drawerVisible : value;
+    },
 });
 </script>
