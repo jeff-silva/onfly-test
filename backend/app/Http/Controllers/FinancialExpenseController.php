@@ -31,7 +31,7 @@ class FinancialExpenseController extends Controller
         ];
     }
 
-    #[Openapi\Param(['name' => 'id', 'in' => 'path'])]
+    #[Openapi\Param(['name' => 'financial_expense', 'in' => 'path'])]
     #[Openapi\Response(200, ['entity' => 'object'])]
     public function show($id, Request $request)
     {
@@ -40,7 +40,7 @@ class FinancialExpenseController extends Controller
         return ['entity' => $entity];
     }
 
-    #[Openapi\Param(['name' => 'id', 'in' => 'path'])]
+    #[Openapi\Param(['name' => 'financial_expense', 'in' => 'path'])]
     #[Openapi\Param(['name' => 'description', 'in' => 'body', 'type' => 'string'])]
     #[Openapi\Param(['name' => 'date', 'in' => 'body', 'type' => 'string', 'format' => 'date-time'])]
     #[Openapi\Param(['name' => 'user_id', 'in' => 'body', 'type' => 'number', 'format' => 'int32'])]
@@ -53,7 +53,7 @@ class FinancialExpenseController extends Controller
         return $entity->update($request->all());
     }
 
-    #[Openapi\Param(['name' => 'id', 'in' => 'path'])]
+    #[Openapi\Param(['name' => 'financial_expense', 'in' => 'path'])]
     #[Openapi\Response(200, ['entity' => 'object'])]
     public function destroy($id, Request $request)
     {
