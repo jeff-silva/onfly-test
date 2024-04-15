@@ -16,7 +16,7 @@
             </div>
             
             <template #actions>
-                <q-btn label="Buscar" to="/app_user" />
+                <q-btn label="Buscar" to="/admin/app_user" />
             </template>
 
             <template #footer>

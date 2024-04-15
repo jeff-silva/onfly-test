@@ -25,7 +25,7 @@
             </template> -->
             
             <template #actions>
-                <q-btn label="Buscar" to="/financial_expense" />
+                <q-btn label="Buscar" to="/admin/financial_expense" />
             </template>
 
             <template #footer>

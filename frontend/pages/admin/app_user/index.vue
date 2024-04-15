@@ -1,9 +1,23 @@
 <template>
     <div>
         <nuxt-layout name="admin" title="Usuários" subtitle="Pesquisar">
-            <div>Busca</div>
-            <q-btn label="Load" @click="search.submit()" :loading="search.busy" />
-            <pre>{{ search }}</pre>
+            <q-table
+                row-key="id"
+                :loading="search.busy"
+                :rows="search.response.data"
+                :columns="[
+                    { name: 'name', field: 'name', align: 'left', label: 'Nome' },
+                    { name: 'email', field: 'email', align: 'left', label: 'E-mail' },
+                    { name: 'actions', label: '', width: '100px' },
+                ]"
+            >
+                <template #body-cell-actions="props">
+                    <q-td :props="props">
+                        <q-btn flat icon="mode_edit" :to="`/admin/app_user/edit?id=${props.row.id}`" />
+                        <!-- <q-btn flat icon="delete" /> -->
+                    </q-td>
+                </template>
+            </q-table>
 
             <template #actions>
                 <div class="column" style="gap: 10px;">
