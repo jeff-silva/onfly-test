@@ -32,6 +32,7 @@ trait ModelSearchTrait
     {
         $request = $this->searchParamsDefault($request);
         $query = $this->scopeSearch($query, $request);
+        $query->orderBy($request->order_by, $request->order);
         $pagination = (array) $query->paginate($request->per_page)->toArray();
 
         return [
@@ -61,7 +62,7 @@ trait ModelSearchTrait
         $request = array_merge([
             'page' => 1,
             'per_page' => 20,
-            'order_by' => 'id',
+            'order_by' => 'updated_at',
             'order' => 'desc',
         ], $request);
 

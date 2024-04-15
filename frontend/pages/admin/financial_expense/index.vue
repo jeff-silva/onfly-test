@@ -49,7 +49,7 @@
 
             <template #actions>
                 <div class="column" style="gap: 10px;">
-                    <q-btn label="Novo" to="/financial_expense/edit" />
+                    <q-btn label="Novo" to="/admin/financial_expense/edit" />
                 </div>
             </template>
             

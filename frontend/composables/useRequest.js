@@ -15,6 +15,8 @@ export default (options = {}) => {
     
     return reactive({
         busy: false,
+        // method: options.method,
+        // url: options.url,
         params: options.params,
         data: options.data,
         response: options.response,
@@ -23,17 +25,27 @@ export default (options = {}) => {
         async submit() {
             this.error = false;
             this.busy = true;
+
+            let axiosOptions = {
+                method: options.method,
+                url: options.url,
+                params: this.params,
+                data: this.data,
+            };
+
+            for(let i in axiosOptions) {
+                if (typeof axiosOptions[i] == 'function') {
+                    axiosOptions[i] = axiosOptions[i]();
+                }
+            }
+
             try {
-                const resp = await axios({
-                    method: options.method,
-                    url: options.url,
-                    params: this.params,
-                    data: this.data,
-                });
+                const resp = await axios(axiosOptions);
                 this.response = resp.data;
                 options.onSuccess(resp);
             } catch(err) {
-                this.error = err.message.response || { message: err.message };
+                console.log(err.response);
+                this.error = err.response ? err.response.data : { message: err.message };
                 options.onError(this.error);
             }
             this.busy = false;

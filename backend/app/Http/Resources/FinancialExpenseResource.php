@@ -17,7 +17,7 @@ class FinancialExpenseResource extends JsonResource
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
-            'desacription' => $this->desacription,
+            'description' => $this->description,
             'date' => $this->date,
             'amount' => $this->amount,
             'created_at' => $this->created_at,
