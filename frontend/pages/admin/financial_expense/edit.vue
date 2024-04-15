@@ -39,13 +39,13 @@
                 seamless
                 position="bottom"
             >
-            <q-card style="width: 350px" class="bg-teal text-white">
-                <q-card-section class="row items-center no-wrap">
-                    <div>Dados salvos</div>
-                    <q-space />
-                    <q-btn flat round icon="close" @click="save.success=false" />
-                </q-card-section>
-            </q-card>
+                <q-card style="width: 350px" class="bg-teal text-white">
+                    <q-card-section class="row items-center no-wrap">
+                        <div>Dados salvos</div>
+                        <q-space />
+                        <q-btn flat round icon="close" @click="save.success=false" />
+                    </q-card-section>
+                </q-card>
             </q-dialog>
 
             <template #sidebar>
