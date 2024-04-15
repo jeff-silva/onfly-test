@@ -11,7 +11,7 @@ Estamos animados para te ver brilha!
 
 - Prepare o projeto para ser disponibilizado no Github, copiando o conteúdo deste repositório para o seu (ou utilize o fork do projeto e aponte para o Github). Confirme que a visibilidade do projeto é pública (não esqueça de colocar no readme a referência a este challenge);
 - O projeto deve utilizar a Linguagem específica na sua Vaga (caso esteja se candidatando). Por exempo: PHP, Node.js e entre outras;
-- Considere como *deadline 4 dias a partir do início do desafio*. Caso tenha sido convidado a realizar o teste e não seja possível concluir dentro deste período, avise a pessoa que o convidou para receber instruções sobre o que fazer.
+- Considere como _deadline 4 dias a partir do início do desafio_. Caso tenha sido convidado a realizar o teste e não seja possível concluir dentro deste período, avise a pessoa que o convidou para receber instruções sobre o que fazer.
 - Documentar todo o processo de investigação para o desenvolvimento da atividade (README.md no seu repositório); os resultados destas tarefas são tão importantes do que o seu processo de pensamento e decisões à medida que as completa, por isso tente documentar e apresentar os seus hipóteses e decisões na medida do possível.
 
 ### Instruções iniciais obrigatórias
@@ -22,13 +22,15 @@ Estamos animados para te ver brilha!
 ### Back-End:
 
 Nessa etapa você deverá construir uma API Restful com Laravel, implementando:
+
 - Autenticação de usuário.
 - CRUD de despesas.
 - Restrição de acesso.
 - A api deverá conter uma forma de Autenticação. (o CRUD deve estar protegido pela
-autenticação).
+  autenticação).
 
 Na entidade despesas, deverá conter:
+
 - Id
 - Descrição (descrição da despesa)
 - Data (data de quando ocorreu a despesa)
@@ -39,8 +41,8 @@ Na entidade despesas, deverá conter:
 
 Faça em Vue.js uma tela de gestão de usuários (CRUD) utilizando sua API. Para facilitar o desenvolvimento, deve-se usar UI framework baseado em Vue.js: Quasar.
 
-
 ### Observações para o teste:
+
 - Colocar validação nos requests do CRUD (usuário existe, data não é futuro, valor não é negativo, descrição tem até 191 caracteres).
 - Colocar restrição de acessos nos requests do CRUD (somente o usuário relacionado a despesa pode acessar e agir sobre ela).
 - Ao cadastrar uma despesa, deverá ser enviado um e-mail para o usuário vinculado a despesa, com o título "despesa cadastrada".
@@ -48,6 +50,7 @@ Faça em Vue.js uma tela de gestão de usuários (CRUD) utilizando sua API. Para
 - Usar os recursos nativos do Laravel é o que entendemos como um bom teste simples e que usa bem o Framework.
 
 ### Recomendamos utilizar as boas práticas do Laravel para a criação desse projeto:
+
 - Fazer a validação da API utilizando o Form Request.
 - Documentação faz TODA a diferença!
 - Fazer a camada de transformação da API utilizando o API Resources.
@@ -55,10 +58,8 @@ Faça em Vue.js uma tela de gestão de usuários (CRUD) utilizando sua API. Para
 - Não esqueça dos testes unitários!
 - Fazer a camada de restrição de acesso utilizando as Policies.
 - Disparar o e-mail utilizando as Notifications, e colocar ele em uma fila, para que seja
-disparado de forma assíncrona.
+  disparado de forma assíncrona.
 - Não se esqueça das FK nas Migrations e das Relations dos Models.
-
-
 
 ## Readme do Repositório
 
@@ -69,7 +70,7 @@ disparado de forma assíncrona.
 - Não esqueça o [.gitignore](https://www.toptal.com/developers/gitignore)
 - Se está usando github pessoal, referencie que é um challenge by coodesh:
 
->  This is a challenge by [Coodesh](https://coodesh.com/)
+> This is a challenge by [Coodesh](https://coodesh.com/)
 
 ## Finalização e Instruções para a Apresentação
 
@@ -81,6 +82,3 @@ disparado de forma assíncrona.
 ## Suporte
 
 Use o nosso canal no slack: http://bit.ly/32CuOMy para tirar dúvidas sobre o processo ou envie um e-mail para contato@coodesh.com.
-
-
-
