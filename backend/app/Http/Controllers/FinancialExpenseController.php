@@ -57,7 +57,9 @@ class FinancialExpenseController extends Controller
     #[Openapi\Response(200, ['entity' => 'object'])]
     public function destroy($id, Request $request)
     {
-        $model = FinancialExpense::findOrFail($id);
-        return $model->delete();
+        $entity = FinancialExpense::find($id);
+        if (!$entity) throw new ApiError(404, 'Entity not found');
+        $entity->delete();
+        return ['entity' => $entity];
     }
 }
