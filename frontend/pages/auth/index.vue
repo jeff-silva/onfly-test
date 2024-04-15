@@ -1,10 +1,24 @@
 <template>
     <div>
         <nuxt-layout name="auth">
-            <q-input label="E-mail" v-model="login.data.email" />
-            <q-input label="Senha" v-model="login.data.password" />
-            <q-btn label="Acessar" style="width: 100%;" @click="login.submit()" />
-            <pre>{{ app.user }}</pre>
+            <form @submit.prevent="login.submit()">
+                <q-card>
+                    <q-card-section>
+                        <q-input label="E-mail" v-model="login.data.email" />
+                        <br>
+                        <q-input label="Senha" v-model="login.data.password" />
+                    </q-card-section>
+                    <q-card-actions class="justify-end">
+                        <q-btn
+                            flat
+                            label="Login"
+                            type="submit"
+                            @click="login.submit()"
+                            :loading="login.busy"
+                        />
+                    </q-card-actions>
+                </q-card>
+            </form>
         </nuxt-layout>
     </div>
 </template>
@@ -21,11 +35,7 @@ const login = useRequest({
     async onSuccess({ data }) {
         localStorage.setItem('app_token', data.access_token);
         await app.refresh();
-        setTimeout(() => {
-            location.href = route.query.redirect || '/admin';
-            // router.push(route.query.redirect || '/admin');
-            // console.log(route.query.redirect || '/admin');
-        }, 1000);
+        router.push(route.query.redirect || '/admin');
     },
 });
 </script>
