@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('description');
             $table->datetime('date');
             $table->decimal('amount', 10, 2);
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('app_user');

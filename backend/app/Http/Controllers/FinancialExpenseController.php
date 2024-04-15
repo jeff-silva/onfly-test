@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Annotations\Openapi;
+use App\Exceptions\ApiError;
 use Illuminate\Http\Request;
 use App\Models\FinancialExpense;
 
@@ -25,14 +26,18 @@ class FinancialExpenseController extends Controller
     #[Openapi\Response(200, ['entity' => 'object'])]
     public function store(Request $request)
     {
-        return FinancialExpense::create($request->all());
+        return [
+            'entity' => FinancialExpense::create($request->all()),
+        ];
     }
 
     #[Openapi\Param(['name' => 'id', 'in' => 'path'])]
     #[Openapi\Response(200, ['entity' => 'object'])]
     public function show($id, Request $request)
     {
-        return FinancialExpense::findOrFail($id);
+        $entity = FinancialExpense::find($id);
+        if (!$entity) throw new ApiError(404, 'Entity not found');
+        return ['entity' => $entity];
     }
 
     #[Openapi\Param(['name' => 'id', 'in' => 'path'])]
@@ -43,8 +48,9 @@ class FinancialExpenseController extends Controller
     #[Openapi\Response(200, ['entity' => 'object'])]
     public function update(Request $request, $id)
     {
-        $model = FinancialExpense::findOrFail($id);
-        return $model->update($request->all());
+        $entity = FinancialExpense::find($id);
+        if (!$entity) throw new ApiError(404, 'Entity not found');
+        return $entity->update($request->all());
     }
 
     #[Openapi\Param(['name' => 'id', 'in' => 'path'])]
