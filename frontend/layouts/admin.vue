@@ -32,42 +32,35 @@
             </q-scroll-area>
         </q-drawer>
 
+        <q-drawer
+            v-model="actions.drawerVisible"
+            show-if-above
+            :behavior="$q.screen.gt.md ? 'desktop' : 'mobile'"
+            :breakpoint="700"
+            bordered
+            side="right"
+        >
+            <q-scroll-area class="fit q-pa-md elevation-2">
+                <slot name="sidebar"></slot>
+            </q-scroll-area>
+        </q-drawer>
+
         <q-page-container>
             <div v-if="props.subtitle" class="bg-primary text-white q-pa-md">
                 {{ props.subtitle }}
             </div>
             <slot name="header"></slot>
             <q-page padding>
-                <div class="row">
-                    <div class="col">
-                        <slot></slot>
-                    </div>
-                    <div class="col-3 q-pl-md" v-if="$q.screen.gt.md">
-                        <slot name="sidebar"></slot>
-                    </div>
-                </div>
+                <slot></slot>
             </q-page>
         </q-page-container>
 
-        <q-drawer
-            v-if="!$q.screen.gt.md"
-            v-model="actions.drawerVisible"
-            show-if-above
-            :breakpoint="700"
-            bordered
-            side="right"
-        >
-            <q-scroll-area class="fit q-pa-sm">
-                <slot name="sidebar"></slot>
-            </q-scroll-area>
-        </q-drawer>
-
-        <q-page-sticky position="bottom-right" :offset="[10, 50]">
+        <q-page-sticky position="bottom-right" :offset="[10, $q.screen.gt.md ? 10 : 50]">
             <slot name="actions"></slot>
         </q-page-sticky>
         
-        <q-page-sticky position="bottom" class="bg-blue-grey-1">
-            <q-btn flat label="Ações" @click="actions.drawer()" v-if="!$q.screen.gt.md" />
+        <q-page-sticky position="bottom" class="bg-blue-grey-1" v-if="!$q.screen.gt.md">
+            <q-btn flat label="Ações" @click="actions.drawer()" />
         </q-page-sticky>
     </q-layout>
   </template>

@@ -34,7 +34,7 @@
             </div>
             
             <template #actions>
-                <q-btn label="Buscar" to="/admin/financial_expense" />
+                <q-btn label="Voltar" to="/admin/financial_expense" color="primary" />
             </template>
 
             <template #sidebar>

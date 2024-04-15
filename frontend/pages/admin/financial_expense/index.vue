@@ -29,9 +29,6 @@
                 </template>
             </q-table>
 
-            <pre>params: {{ search.params }}</pre>
-            <pre>pagination: {{ search.response.pagination }}</pre>
-
             <template #sidebar>
                 <form @submit.prevent="search.submit()" class="column" style="gap: 10px;">
                     <q-input label="Busca" v-model="search.params.q" />
@@ -61,7 +58,7 @@
 
             <template #actions>
                 <div class="column" style="gap: 10px;">
-                    <q-btn label="Novo" to="/admin/financial_expense/edit" />
+                    <q-btn label="Novo" to="/admin/financial_expense/edit" color="primary" />
                 </div>
             </template>
         </nuxt-layout>
