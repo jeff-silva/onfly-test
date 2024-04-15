@@ -20,6 +20,33 @@
                 </template>
             </q-table>
 
+            <template #sidebar>
+                <form @submit.prevent="search.submit()" class="column" style="gap: 10px;">
+                    <q-input label="Busca" v-model="search.params.q" />
+                    <q-date
+                        range
+                        mask="YYYY-MM-DD"
+                        style="width: 100%;"
+                        :model-value="{
+                            from: search.params.date_min,
+                            to: search.params.date_max,
+                        }"
+                        @update:modelValue="(ev) => {
+                            search.params.date_min = `${ev.from} 00:00:00`;
+                            search.params.date_max = `${ev.to} 23:59:59`;
+                        }"
+                    />
+                    <q-btn
+                        label="Limpar calendário"
+                        @click="() => {
+                            search.params.date_min = '';
+                            search.params.date_max = '';
+                        }"
+                    />
+                    <q-btn label="Buscar" type="submit" :loading="search.busy" />
+                </form>
+            </template>
+
             <template #actions>
                 <div class="column" style="gap: 10px;">
                     <q-btn label="Novo" to="/financial_expense/edit" />
