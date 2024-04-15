@@ -10,6 +10,14 @@
                     { name: 'email', field: 'email', align: 'left', label: 'E-mail' },
                     { name: 'actions', label: '', width: '100px' },
                 ]"
+                :pagination="{
+                    page: search.params.page,
+                    rowsPerPage: search.params.per_page,
+                }"
+                @update:pagination="(ev) => {
+                    search.params.per_page = ev.rowsPerPage;
+                    search.submit();
+                }"
             >
                 <template #body-cell-actions="props">
                     <q-td :props="props">
@@ -28,14 +36,8 @@
             
             <template #actions>
                 <div class="column" style="gap: 10px;">
-                    <q-btn label="Novo" to="/app_user/edit" />
+                    <q-btn label="Novo" to="/admin/app_user/edit" />
                 </div>
-            </template>
-            
-            <template #footer>
-                <q-btn label="Aaa" flat />
-                <q-btn label="Aaa" flat />
-                <q-btn label="Aaa" flat />
             </template>
         </nuxt-layout>
     </div>
@@ -45,7 +47,7 @@
 const search = useRequest({
     method: 'get',
     url: 'api://app_user',
-    params: { q: '' },
+    params: { q: '', page: 1, per_page: 20 },
     response: {
         pagination: {},
         data: [],
