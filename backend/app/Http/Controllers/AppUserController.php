@@ -72,4 +72,16 @@ class AppUserController extends Controller
         $entity->delete();
         return new AppUserResource($entity);
     }
+
+
+    #[Openapi\Auth()]
+    #[Openapi\Response(200, ['entity' => 'object'])]
+    public function groups(Request $request)
+    {
+        return [
+            ['id' => 'admin', 'name' => 'Master'],
+            ['id' => 'dev', 'name' => 'Desenvolvedor'],
+            ['id' => 'author', 'name' => 'Autor'],
+        ];
+    }
 }

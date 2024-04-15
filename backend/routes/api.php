@@ -16,5 +16,7 @@ Route::post('/auth/logout', [Controllers\AuthController::class, 'logout'])->name
 Route::post('/auth/refresh', [Controllers\AuthController::class, 'refresh'])->name('auth.refresh')->middleware('auth:api');
 Route::post('/auth/user', [Controllers\AuthController::class, 'user'])->name('auth.user')->middleware('auth:api');
 
+Route::get('/app_user/groups', [Controllers\AppUserController::class, 'groups'])->name('user.groups')->middleware('auth:api');
 Route::apiResource('app_user', Controllers\AppUserController::class)->middleware('auth:api');
+
 Route::apiResource('financial_expense', Controllers\FinancialExpenseController::class)->middleware('auth:api');

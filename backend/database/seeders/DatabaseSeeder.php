@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Main',
             'email' => 'main@grr.la',
             'password' => 'main@grr.la',
+            'group' => 'admin',
         ]);
     }
 }

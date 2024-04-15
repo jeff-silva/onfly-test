@@ -25,6 +25,7 @@ class AppUserCreateRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:app_user,email'],
             'password' => ['required'],
+            'group' => ['required', 'string'],
         ];
     }
 }
