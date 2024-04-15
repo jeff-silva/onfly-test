@@ -14,7 +14,7 @@
                             <input
                                 class="q-field__input text-right"
                                 v-maska="'money'"
-                                :value="parseFloat(save.data.amount).toFixed(2)"
+                                :value="parseFloat(save.data.amount||0).toFixed(2)"
                                 @input="(ev) => {
                                     save.data.amount = parseInt(ev.target.value.replace(/[^0-9]/g, ''))/100;
                                 }"
@@ -33,18 +33,31 @@
                     />
                 </div>
             </div>
-            
-            <template #actions>
-                <q-btn label="Voltar" to="/admin/financial_expense" color="primary" />
-            </template>
+
+            <q-dialog
+                v-model="save.success"
+                seamless
+                position="bottom"
+            >
+            <q-card style="width: 350px" class="bg-teal text-white">
+                <q-card-section class="row items-center no-wrap">
+                    <div>Dados salvos</div>
+                    <q-space />
+                    <q-btn flat round icon="close" @click="save.success=false" />
+                </q-card-section>
+            </q-card>
+            </q-dialog>
 
             <template #sidebar>
-                <div class="column" style="gap: 10px;">
+                <div class="column" style="gap: 15px;">
                     <q-btn
                         label="Salvar"
                         :loading="save.busy"
                         @click="save.submit()"
+                        color="primary"
                     />
+
+                    <q-btn label="Voltar" to="/admin/financial_expense" />
                 </div>
             </template>
         </nuxt-layout>

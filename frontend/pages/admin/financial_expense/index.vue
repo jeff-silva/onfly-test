@@ -30,7 +30,7 @@
             </q-table>
 
             <template #sidebar>
-                <form @submit.prevent="search.submit()" class="column" style="gap: 10px;">
+                <form @submit.prevent="search.submit()" class="column" style="gap: 15px;">
                     <q-input label="Busca" v-model="search.params.q" />
                     <q-date
                         range

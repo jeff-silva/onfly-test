@@ -15,6 +15,7 @@ export default (options = {}) => {
     
     return reactive({
         busy: false,
+        success: false,
         // method: options.method,
         // url: options.url,
         params: options.params,
@@ -24,6 +25,7 @@ export default (options = {}) => {
 
         async submit() {
             this.error = false;
+            this.success = false;
             this.busy = true;
 
             let axiosOptions = {
@@ -42,6 +44,7 @@ export default (options = {}) => {
             try {
                 const resp = await axios(axiosOptions);
                 this.response = resp.data;
+                this.success = true;
                 options.onSuccess(resp);
             } catch(err) {
                 this.error = err.response ? err.response.data : { message: err.message };
