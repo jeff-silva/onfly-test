@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // })->middleware('auth:sanctum');
 
+Route::get('/app/load', [Controllers\AppController::class, 'load']);
 Route::get('/app/openapi', [Controllers\AppController::class, 'openapi']);
 
 Route::post('/auth/login', [Controllers\AuthController::class, 'login'])->name('auth.login');

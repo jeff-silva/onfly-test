@@ -14,7 +14,9 @@ class AppController extends Controller
 {
     public function load()
     {
-        return [];
+        return [
+            'user' => auth()->user(),
+        ];
     }
 
     public function openapi()

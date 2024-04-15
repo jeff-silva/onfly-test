@@ -40,7 +40,6 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     },
     (error) => {
       if (error.response && error.response.status==401) {
-        console.log(location.path);
         // localStorage.setItem('app_redirect', location.href);
         // location.href = `/auth`;
       }

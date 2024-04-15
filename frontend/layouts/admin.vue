@@ -1,5 +1,9 @@
 <template>
-    <q-layout view="hHh Lpr lff" container style="height: 100vh" class="shadow-2">
+    <div v-if="!app.ready" style="display: flex; align-items: center; justify-content: center; width: 100vw; height:100vh;">
+        <!-- https://www.svgbackgrounds.com/elements/animated-svg-preloaders/ -->
+        <svg style="height:100px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle fill="#1976D2" stroke="#1976D2" stroke-width="15" r="15" cx="35" cy="100"><animate attributeName="cx" calcMode="spline" dur="2" values="35;165;165;35;35" keySplines="0 .1 .5 1;0 .1 .5 1;0 .1 .5 1;0 .1 .5 1" repeatCount="indefinite" begin="0"></animate></circle><circle fill="#1976D2" stroke="#1976D2" stroke-width="15" opacity=".8" r="15" cx="35" cy="100"><animate attributeName="cx" calcMode="spline" dur="2" values="35;165;165;35;35" keySplines="0 .1 .5 1;0 .1 .5 1;0 .1 .5 1;0 .1 .5 1" repeatCount="indefinite" begin="0.05"></animate></circle><circle fill="#1976D2" stroke="#1976D2" stroke-width="15" opacity=".6" r="15" cx="35" cy="100"><animate attributeName="cx" calcMode="spline" dur="2" values="35;165;165;35;35" keySplines="0 .1 .5 1;0 .1 .5 1;0 .1 .5 1;0 .1 .5 1" repeatCount="indefinite" begin=".1"></animate></circle><circle fill="#1976D2" stroke="#1976D2" stroke-width="15" opacity=".4" r="15" cx="35" cy="100"><animate attributeName="cx" calcMode="spline" dur="2" values="35;165;165;35;35" keySplines="0 .1 .5 1;0 .1 .5 1;0 .1 .5 1;0 .1 .5 1" repeatCount="indefinite" begin=".15"></animate></circle><circle fill="#1976D2" stroke="#1976D2" stroke-width="15" opacity=".2" r="15" cx="35" cy="100"><animate attributeName="cx" calcMode="spline" dur="2" values="35;165;165;35;35" keySplines="0 .1 .5 1;0 .1 .5 1;0 .1 .5 1;0 .1 .5 1" repeatCount="indefinite" begin=".2"></animate></circle></svg>
+    </div>
+    <q-layout v-if="app.ready" view="hHh Lpr lff" container style="height: 100vh" class="shadow-2">
         <q-header bordered>
             <q-toolbar>
                 <q-btn flat @click="nav.drawer()" round dense icon="menu" />
@@ -18,8 +22,8 @@
             <q-scroll-area class="fit">
                 <q-list>
                     <template v-for="item in nav.items">
-                        <q-item :to="item.to">
-                            <q-item-section>
+                        <q-item v-bind="item.bind">
+                            <q-item-section @click="item.bind.onClick">
                                 {{ item.title }}
                             </q-item-section>
                         </q-item>
@@ -60,15 +64,36 @@ const props = defineProps({
     },
 });
 
+const app = useApp();
+
 const nav = reactive({
     drawerVisible: false,
     drawer(value = null) {
         this.drawerVisible = value===null ? !this.drawerVisible : value;
     },
     items: [
-        { title: 'Dashboard', to: '/' },
-        { title: 'Usuários', to: '/app_user' },
-        { title: 'Despesas', to: '/financial_expense' },
+        {
+            title: 'Dashboard',
+            bind: { to: '/admin' },
+        },
+        {
+            title: 'Usuários',
+            bind: { to: '/admin/app_user' },
+        },
+        {
+            title: 'Despesas',
+            bind: { to: '/admin/financial_expense' },
+        },
+        {
+            title: 'Logout',
+            bind: {
+                style: { cursor: 'pointer' },
+                async onClick() {
+                    await app.logout();
+                    location.reload();
+                },
+            },
+        },
     ],
 });
 </script>
