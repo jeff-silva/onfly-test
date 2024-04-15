@@ -26,14 +26,12 @@
                     <div>Data lançamento</div>
                     <q-date
                         landscape
+                        style="width: 100%;"
                         mask="YYYY-MM-DD 00:00:00"
                         v-model="save.data.date"
                     />
                 </div>
             </div>
-
-            <pre>{{ route.query }}</pre>
-            <pre>{{ save }}</pre>
             
             <template #actions>
                 <q-btn label="Buscar" to="/admin/financial_expense" />
@@ -54,22 +52,25 @@
 
 <script setup>
 const route = useRoute();
+const router = useRouter();
 
 const save = useRequest({
-    method: () => {
-        return route.query.id ? 'put' : 'post';
-    },
+    method: () => route.query.id ? 'put' : 'post',
     url: () => {
         return route.query.id ? `api://financial_expense/${route.query.id}` : 'api://financial_expense';
     },
     data: {},
+    onSuccess: ({ data }) => {
+        const query = { ...route.query, id: data.data.id };
+        router.push({ query });
+        save.data = data.data;
+    },
 });
 
 const load = useRequest({
     method: 'get',
     url: () => route.query.id ? `api://financial_expense/${route.query.id}` : null,
     onSuccess(resp) {
-        console.log('aaa');
         save.data = resp.data.data;
     },
 });

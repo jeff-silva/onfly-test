@@ -44,7 +44,6 @@ export default (options = {}) => {
                 this.response = resp.data;
                 options.onSuccess(resp);
             } catch(err) {
-                console.log(err.response);
                 this.error = err.response ? err.response.data : { message: err.message };
                 options.onError(this.error);
             }
