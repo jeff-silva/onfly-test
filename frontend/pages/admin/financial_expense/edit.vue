@@ -1,7 +1,7 @@
 <template>
     <div>
         <nuxt-layout name="admin" title="Despesas" subtitle="Editar">
-            <div class="row q-col-gutter-md">
+            <div class="row q-col-gutter-lg">
                 <div class="col-12 col-lg-6">
                     <app-user-select label="Usuário" v-model="save.data.user_id" />
                     <br>
@@ -14,7 +14,7 @@
                             <input
                                 class="q-field__input text-right"
                                 v-maska="'money'"
-                                :value="save.data.amount"
+                                :value="parseFloat(save.data.amount).toFixed(2)"
                                 @input="(ev) => {
                                     save.data.amount = parseInt(ev.target.value.replace(/[^0-9]/g, ''))/100;
                                 }"
@@ -23,10 +23,11 @@
                     </q-field>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <div>Data lançamento</div>
+                    <div>Data de lançamento:</div>
+                    <br>
                     <q-date
-                        :landscape="false"
-                        style="width: 100%;"
+                        :landscape="$q.screen.gt.md"
+                        style="width: 100%; max-width: 500px;"
                         mask="YYYY-MM-DD 00:00:00"
                         v-model="save.data.date"
                     />
