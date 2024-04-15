@@ -13,26 +13,25 @@ trait ModelSearchTrait
 
     public function searchQuery($query, $request)
     {
-        //
+        return $query;
     }
 
     protected function searchQueryDefault($query, $request)
     {
-        //
+        return $query;
     }
 
     public function scopeSearch($query, $request = null)
     {
         $request = $this->searchParamsDefault($request);
-        $this->searchQueryDefault($query, $request);
-        $this->searchQuery($query, $request);
-        return $query;
+        $query = $this->searchQueryDefault($query, $request);
+        return $this->searchQuery($query, $request);
     }
 
     public function scopeSearchPaginated($query, $request = null)
     {
         $request = $this->searchParamsDefault($request);
-        $this->searchQuery($query, $request);
+        $query = $this->searchQuery($query, $request);
         $pagination = (array) $query->paginate($request->per_page)->toArray();
 
         return [
@@ -45,6 +44,7 @@ trait ModelSearchTrait
                 'total' => $pagination['total'],
             ],
             'data' => $pagination['data'],
+            // 'sql' => $query->toSql(),
         ];
     }
 

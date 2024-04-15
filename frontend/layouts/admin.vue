@@ -67,10 +67,8 @@ const nav = reactive({
     },
     items: [
         { title: 'Dashboard', to: '/' },
+        { title: 'Usuários', to: '/app_user' },
         { title: 'Despesas', to: '/financial_expense' },
-        { title: 'Test 1', to: '/?test=1' },
-        { title: 'Test 2', to: '/?test=2' },
-        { title: 'Test 3', to: '/?test=3' },
     ],
 });
 </script>

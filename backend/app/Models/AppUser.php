@@ -70,4 +70,23 @@ class AppUser extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function searchParams()
+    {
+        return [
+            'q' => null,
+        ];
+    }
+
+    public function searchQuery($query, $request)
+    {
+        if ($search = $request->input('q')) {
+            $query->where(function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%");
+                $query->orWhere('email', 'like', "%{$search}%");
+            });
+        }
+
+        return $query;
+    }
 }
