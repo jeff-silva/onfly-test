@@ -50,7 +50,8 @@ class FinancialExpenseController extends Controller
     {
         $entity = FinancialExpense::find($id);
         if (!$entity) throw new ApiError(404, 'Entity not found');
-        return $entity->update($request->all());
+        $entity->update($request->all());
+        return ['entity' => $entity];
     }
 
     #[Openapi\Param(['name' => 'financial_expense', 'in' => 'path'])]
