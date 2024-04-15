@@ -19,6 +19,13 @@
                 </template>
             </q-table>
 
+            <template #sidebar>
+                <form @submit.prevent="search.submit()" class="column" style="gap: 10px;">
+                    <q-input label="Busca" v-model="search.params.q" />
+                    <q-btn label="Buscar" type="submit" :loading="search.busy" />
+                </form>
+            </template>
+            
             <template #actions>
                 <div class="column" style="gap: 10px;">
                     <q-btn label="Novo" to="/app_user/edit" />

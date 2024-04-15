@@ -31,7 +31,7 @@ trait ModelSearchTrait
     public function scopeSearchPaginated($query, $request = null)
     {
         $request = $this->searchParamsDefault($request);
-        $query = $this->searchQuery($query, $request);
+        $query = $this->scopeSearch($query, $request);
         $pagination = (array) $query->paginate($request->per_page)->toArray();
 
         return [
@@ -51,22 +51,20 @@ trait ModelSearchTrait
     protected function searchParamsDefault($request = null)
     {
         if ($request === null) {
-            $request = new Request;
+            $request = [];
         }
 
-        if (is_array($request)) {
-            $request = new Request($request);
+        if ($request instanceof Request) {
+            $request = $request->all();
         }
 
-        $request->merge([
+        $request = array_merge([
             'page' => 1,
             'per_page' => 20,
             'order_by' => 'id',
             'order' => 'desc',
-        ]);
+        ], $request);
 
-        $request->merge($this->searchParams());
-
-        return $request;
+        return new Request($request);
     }
 }

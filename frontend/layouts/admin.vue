@@ -38,7 +38,14 @@
             </div>
             <slot name="header"></slot>
             <q-page padding>
-                <slot></slot>
+                <div class="row">
+                    <div class="col">
+                        <slot></slot>
+                    </div>
+                    <div class="col-3 q-pl-md">
+                        <slot name="sidebar"></slot>
+                    </div>
+                </div>
             </q-page>
         </q-page-container>
 
