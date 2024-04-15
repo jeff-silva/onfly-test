@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\AppUser;
 use App\Traits\ModelSearchTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class FinancialExpense extends Model
@@ -39,5 +41,10 @@ class FinancialExpense extends Model
         }
 
         return $query;
+    }
+
+    public function appUser(): BelongsTo
+    {
+        return $this->belongsTo(AppUser::class, 'user_id');
     }
 }

@@ -4,10 +4,12 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\FinancialExpense;
 use App\Traits\ModelSearchTrait;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -89,5 +91,10 @@ class AppUser extends Authenticatable implements JWTSubject
         }
 
         return $query;
+    }
+
+    public function financialExpenses(): HasMany
+    {
+        return $this->hasMany(FinancialExpense::class, 'user_id');
     }
 }
