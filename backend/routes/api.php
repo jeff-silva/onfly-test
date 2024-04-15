@@ -10,4 +10,5 @@ Route::get('/user', function (Request $request) {
 
 Route::get('/app/openapi', [Controllers\AppController::class, 'openapi']);
 
+Route::apiResource('app_user', Controllers\AppUserController::class);
 Route::apiResource('financial_expense', Controllers\FinancialExpenseController::class);
