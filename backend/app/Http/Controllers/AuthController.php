@@ -17,6 +17,7 @@ class AuthController extends Controller
         ];
     }
 
+
     #[Openapi\Param(['name' => 'email', 'in' => 'body', 'type' => 'string'])]
     #[Openapi\Param(['name' => 'password', 'in' => 'body', 'type' => 'string'])]
     public function login()
@@ -28,17 +29,23 @@ class AuthController extends Controller
         return $this->tokenResponse($token);
     }
 
+
+    #[Openapi\Auth()]
     public function logout()
     {
         auth()->logout();
         return ['message' => 'Successfully logged out'];
     }
 
+
+    #[Openapi\Auth()]
     public function refresh()
     {
         return $this->tokenResponse(auth()->refresh());
     }
 
+
+    #[Openapi\Auth()]
     public function user()
     {
         return auth()->user();

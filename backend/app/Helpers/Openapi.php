@@ -26,6 +26,41 @@ class Openapi
             ['url' => \URL::to('/api')],
         ];
         // self::$data['host'] = \URL::to('/api');
+
+        // self::$data['securityDefinitions'] = [
+        //     'bearerAuth' => [
+        //         'type' => 'apiKey',
+        //         'in' => 'header',
+        //         'name' => 'Authorization',
+        //         'description' => 'Bearer authentication token',
+        //         'schema' => [
+        //             'type' => 'string',
+        //             'format' => 'bearer',
+        //         ],
+        //     ],
+        // ];
+
+        self::$data['components'] = [
+            'securitySchemes' => [
+                'bearerAuth' => [
+                    'name' => 'Auth',
+                    'description' => 'Bearer auth',
+                    'in' => 'header',
+                    'type' => 'http',
+                    'scheme' => 'bearer',
+                    'bearerFormat' => 'JWT',
+                ],
+            ],
+        ];
+
+        // self::$data['security'] = [
+        //     'ApiKeyAuth' => [],
+        // ];
+
+        // self::$data['x-default-token'] = [
+        //     'Authorization' => 'Bearer YOUR_ACCESS_TOKEN',
+        // ];
+
         return self::$data;
     }
 
@@ -80,6 +115,9 @@ class Openapi
                 'costumes' => ['multipart/form-data'],
                 'produces' => ['application/json'],
                 'parameters' => [],
+                // 'security' => [
+                //     'bearerAuth' => [],
+                // ],
                 'responses' => [
                     '500' => [
                         'content' => [

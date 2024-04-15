@@ -7,9 +7,11 @@ use App\Exceptions\ApiError;
 use Illuminate\Http\Request;
 use App\Models\FinancialExpense;
 use App\Http\Requests\FinancialExpenseRequest;
+use App\Http\Resources\FinancialExpenseResource;
 
 class FinancialExpenseController extends Controller
 {
+    #[Openapi\Auth()]
     #[Openapi\Param(['name' => 'page', 'in' => 'query'])]
     #[Openapi\Param(['name' => 'per_page', 'in' => 'query'])]
     #[Openapi\Param(['name' => 'order_by', 'in' => 'query'])]
@@ -21,6 +23,7 @@ class FinancialExpenseController extends Controller
     }
 
 
+    #[Openapi\Auth()]
     #[Openapi\Param(['name' => 'description', 'in' => 'body', 'type' => 'string'])]
     #[Openapi\Param(['name' => 'date', 'in' => 'body', 'type' => 'string', 'format' => 'date-time'])]
     #[Openapi\Param(['name' => 'user_id', 'in' => 'body', 'type' => 'number', 'format' => 'int32'])]
@@ -28,22 +31,23 @@ class FinancialExpenseController extends Controller
     #[Openapi\Response(200, ['entity' => 'object'])]
     public function store(FinancialExpenseRequest $request)
     {
-        return [
-            'entity' => FinancialExpense::create($request->all()),
-        ];
+        $entity = FinancialExpense::create($request->all());
+        return new FinancialExpenseResource($entity);
     }
 
 
+    #[Openapi\Auth()]
     #[Openapi\Param(['name' => 'financial_expense', 'in' => 'path'])]
     #[Openapi\Response(200, ['entity' => 'object'])]
     public function show($id, Request $request)
     {
         $entity = FinancialExpense::find($id);
         if (!$entity) throw new ApiError(404, 'Entity not found');
-        return ['entity' => $entity];
+        return new FinancialExpenseResource($entity);
     }
 
 
+    #[Openapi\Auth()]
     #[Openapi\Param(['name' => 'financial_expense', 'in' => 'path'])]
     #[Openapi\Param(['name' => 'description', 'in' => 'body', 'type' => 'string'])]
     #[Openapi\Param(['name' => 'date', 'in' => 'body', 'type' => 'string', 'format' => 'date-time'])]
@@ -55,10 +59,11 @@ class FinancialExpenseController extends Controller
         $entity = FinancialExpense::find($id);
         if (!$entity) throw new ApiError(404, 'Entity not found');
         $entity->update($request->all());
-        return ['entity' => $entity];
+        return new FinancialExpenseResource($entity);
     }
 
 
+    #[Openapi\Auth()]
     #[Openapi\Param(['name' => 'financial_expense', 'in' => 'path'])]
     #[Openapi\Response(200, ['entity' => 'object'])]
     public function destroy($id, Request $request)
@@ -66,6 +71,6 @@ class FinancialExpenseController extends Controller
         $entity = FinancialExpense::find($id);
         if (!$entity) throw new ApiError(404, 'Entity not found');
         $entity->delete();
-        return ['entity' => $entity];
+        return new FinancialExpenseResource($entity);
     }
 }
