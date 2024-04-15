@@ -6,6 +6,7 @@ use App\Annotations\Openapi;
 use App\Exceptions\ApiError;
 use Illuminate\Http\Request;
 use App\Models\FinancialExpense;
+use App\Http\Requests\FinancialExpenseRequest;
 
 class FinancialExpenseController extends Controller
 {
@@ -19,17 +20,19 @@ class FinancialExpenseController extends Controller
         return FinancialExpense::searchPaginated($request);
     }
 
+
     #[Openapi\Param(['name' => 'description', 'in' => 'body', 'type' => 'string'])]
     #[Openapi\Param(['name' => 'date', 'in' => 'body', 'type' => 'string', 'format' => 'date-time'])]
     #[Openapi\Param(['name' => 'user_id', 'in' => 'body', 'type' => 'number', 'format' => 'int32'])]
     #[Openapi\Param(['name' => 'amount', 'in' => 'body', 'type' => 'number', 'format' => 'double'])]
     #[Openapi\Response(200, ['entity' => 'object'])]
-    public function store(Request $request)
+    public function store(FinancialExpenseRequest $request)
     {
         return [
             'entity' => FinancialExpense::create($request->all()),
         ];
     }
+
 
     #[Openapi\Param(['name' => 'financial_expense', 'in' => 'path'])]
     #[Openapi\Response(200, ['entity' => 'object'])]
@@ -40,19 +43,21 @@ class FinancialExpenseController extends Controller
         return ['entity' => $entity];
     }
 
+
     #[Openapi\Param(['name' => 'financial_expense', 'in' => 'path'])]
     #[Openapi\Param(['name' => 'description', 'in' => 'body', 'type' => 'string'])]
     #[Openapi\Param(['name' => 'date', 'in' => 'body', 'type' => 'string', 'format' => 'date-time'])]
     #[Openapi\Param(['name' => 'user_id', 'in' => 'body', 'type' => 'number', 'format' => 'int32'])]
     #[Openapi\Param(['name' => 'amount', 'in' => 'body', 'type' => 'number', 'format' => 'double'])]
     #[Openapi\Response(200, ['entity' => 'object'])]
-    public function update(Request $request, $id)
+    public function update(FinancialExpenseRequest $request, $id)
     {
         $entity = FinancialExpense::find($id);
         if (!$entity) throw new ApiError(404, 'Entity not found');
         $entity->update($request->all());
         return ['entity' => $entity];
     }
+
 
     #[Openapi\Param(['name' => 'financial_expense', 'in' => 'path'])]
     #[Openapi\Response(200, ['entity' => 'object'])]
