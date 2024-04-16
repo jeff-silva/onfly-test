@@ -6,12 +6,17 @@ use App\Models\AppUser;
 use App\Annotations\Openapi;
 use App\Exceptions\ApiError;
 use Illuminate\Http\Request;
+use App\Http\Resources\AppUserResource;
 use App\Http\Requests\AppUserCreateRequest;
 use App\Http\Requests\AppUserUpdateRequest;
-use App\Http\Resources\AppUserResource;
+use App\Contracts\AppUserRepositoryInterface;
 
 class AppUserController extends Controller
 {
+    public function __construct(private AppUserRepositoryInterface $repository)
+    {
+    }
+
     #[Openapi\Auth()]
     #[Openapi\Param(['name' => 'page', 'in' => 'query'])]
     #[Openapi\Param(['name' => 'per_page', 'in' => 'query'])]
@@ -20,7 +25,7 @@ class AppUserController extends Controller
     #[Openapi\Response(200, ['pagination' => 'object', 'data' => 'array'])]
     public function index(Request $request)
     {
-        return AppUser::searchPaginated($request);
+        return $this->repository->index($request);
     }
 
 
@@ -31,7 +36,7 @@ class AppUserController extends Controller
     #[Openapi\Response(200, ['entity' => 'object'])]
     public function store(AppUserCreateRequest $request)
     {
-        $entity = AppUser::create($request->all());
+        $entity = $this->repository->store($request);
         return new AppUserResource($entity);
     }
 
@@ -41,7 +46,7 @@ class AppUserController extends Controller
     #[Openapi\Response(200, ['entity' => 'object'])]
     public function show($id, Request $request)
     {
-        $entity = AppUser::find($id);
+        $entity = $this->repository->show($id);
         if (!$entity) throw new ApiError(404, 'Entity not found');
         return new AppUserResource($entity);
     }
@@ -55,7 +60,7 @@ class AppUserController extends Controller
     #[Openapi\Response(200, ['entity' => 'object'])]
     public function update(AppUserUpdateRequest $request, $id)
     {
-        $entity = AppUser::find($id);
+        $entity = $this->repository->update($request, $id);
         if (!$entity) throw new ApiError(404, 'Entity not found');
         $entity->update($request->all());
         return new AppUserResource($entity);
@@ -67,7 +72,7 @@ class AppUserController extends Controller
     #[Openapi\Response(200, ['entity' => 'object'])]
     public function destroy($id, Request $request)
     {
-        $entity = AppUser::find($id);
+        $entity = $this->repository->destroy($id);
         if (!$entity) throw new ApiError(404, 'Entity not found');
         $entity->delete();
         return new AppUserResource($entity);
