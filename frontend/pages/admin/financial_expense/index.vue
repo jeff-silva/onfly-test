@@ -22,6 +22,9 @@
                     search.submit();
                 }"
             >
+                <template #body-cell-user_id="props">
+                    <q-td>{{ props.row.app_user.name }}</q-td>
+                </template>
                 <template #body-cell-actions="props">
                     <q-td :props="props">
                         <q-btn

@@ -1,84 +1,68 @@
 # Fullstack Challenge - Onfly 20231205
 
+[![PHP Version](https://img.shields.io/badge/PHP-8.3-red.svg?style=flat)](https://secure.php.net/manual/en/versioning.php)
+[![Laravel Version](https://img.shields.io/badge/Laravel-11-orange.svg?style=flat)](https://laravel.com/)
+[![Vue Version](https://img.shields.io/badge/Vue-3.x-green.svg?style=flat)](https://vuejs.org/)
+[![Nuxt Version](https://img.shields.io/badge/Nuxt-3-blue.svg?style=flat)](https://nuxtjs.org/)
+[![Docker Version](https://img.shields.io/badge/Docker-gray.svg?style=flat)](https://docs.docker.com/)
+
+Desafio Onfly para cargo de Dev Full Stack.
+
 ## Introdução
 
-Este é o nosso case técnico! A ideia é que você possa mostrar toda sua expertise técnica através dele!
-Estamos animados para te ver brilha!
+Antes de mais nada, muito obrigado pela oportunidade! Espero que tudo dê certo, será um prazer fazer parte do time Onfly.
 
-[SPOILER] As instruções de entrega e apresentação do challenge estão no final deste Readme (=
+## Tecnologias
 
-### Antes de começar
+A aplicação foi criada dentro da arquitetura monorepo para uma maior facilidade de distribuição.
 
-- Prepare o projeto para ser disponibilizado no Github, copiando o conteúdo deste repositório para o seu (ou utilize o fork do projeto e aponte para o Github). Confirme que a visibilidade do projeto é pública (não esqueça de colocar no readme a referência a este challenge);
-- O projeto deve utilizar a Linguagem específica na sua Vaga (caso esteja se candidatando). Por exempo: PHP, Node.js e entre outras;
-- Considere como _deadline 4 dias a partir do início do desafio_. Caso tenha sido convidado a realizar o teste e não seja possível concluir dentro deste período, avise a pessoa que o convidou para receber instruções sobre o que fazer.
-- Documentar todo o processo de investigação para o desenvolvimento da atividade (README.md no seu repositório); os resultados destas tarefas são tão importantes do que o seu processo de pensamento e decisões à medida que as completa, por isso tente documentar e apresentar os seus hipóteses e decisões na medida do possível.
+Os arquivos e tabelas foram pensados de forma modular para facilitar a separação de responsabilidades. Para esse desafio, concluí que seriam necessários dois módulos: A base da aplicação, denominada pelo prefixo `app`, e o módulo responsável pela parte financeira, denominado pelo prefixo `financial`. Utilizando os prefixos corretamente, arquivos do sistema e tabelas no banco ficariam visualmente próximos, facilitando a localização e melhorando a organização.
 
-### Instruções iniciais obrigatórias
+Para o backend, foi utilizado o framework PHP 8.3 com Laravel 11, e para o frontend, Vue 3 com o framework Nuxt 3.
 
-- O projeto deverá ser desenvolvido com uma das tecnologias a seguir: **PHP Laravel | Vue.js**;
-- Criar um banco de dados **MySQL**. (Recomendável usar Drivers oficiais para integração com o DB)
+Além da aplicação, foram criados mais alguns serviços para auxiliar o desenvolvimento, sendo eles PHPMyAdmin, para visualização simplificada do banco de dados, e Swagger, para visualização dos endpoints da API.
 
-### Back-End:
+Todas as telas foram pensados de maneira responsiva.
 
-Nessa etapa você deverá construir uma API Restful com Laravel, implementando:
+## Iniciando a aplicação
 
-- Autenticação de usuário.
-- CRUD de despesas.
-- Restrição de acesso.
-- A api deverá conter uma forma de Autenticação. (o CRUD deve estar protegido pela
-  autenticação).
+Para inicializar a aplicação, basta executar o comando abaixo na pasta raiz do repositório.
 
-Na entidade despesas, deverá conter:
+```bash
+yarn dev
+```
 
-- Id
-- Descrição (descrição da despesa)
-- Data (data de quando ocorreu a despesa)
-- Usuário (usuário dono da despesa, um relacionamento com a tabela de Usuários)
-- Valor (valor em reais da despesa)
+A aplicação instala as dependências de todos os serviços e executa as migrations e seeds do banco de dados, portanto você não precisa executar mais nenhum comando.
 
-### Front-end:
+Se tudo ocorrer bem, a aplicação estará disponível nas seguintes portas:
 
-Faça em Vue.js uma tela de gestão de usuários (CRUD) utilizando sua API. Para facilitar o desenvolvimento, deve-se usar UI framework baseado em Vue.js: Quasar.
+| Serviço    | URL                   |
+| ---------- | --------------------- |
+| Backend    | http://localhost:8000 |
+| Frontend   | http://localhost:3000 |
+| PHPMyAdmin | http://localhost:8081 |
+| Swagger    | http://localhost:8100 |
 
-### Observações para o teste:
+Abaixo, os dados de login padrão:
 
-- Colocar validação nos requests do CRUD (usuário existe, data não é futuro, valor não é negativo, descrição tem até 191 caracteres).
-- Colocar restrição de acessos nos requests do CRUD (somente o usuário relacionado a despesa pode acessar e agir sobre ela).
-- Ao cadastrar uma despesa, deverá ser enviado um e-mail para o usuário vinculado a despesa, com o título "despesa cadastrada".
-- O teste pode ser realizado da forma que preferir, porém, a forma como for realizado o projeto será o ponto central da avaliação. Recomendamos implementar o projeto do jeito mais simples possível e seguir as boas práticas do Clean Code.
-- Usar os recursos nativos do Laravel é o que entendemos como um bom teste simples e que usa bem o Framework.
+|        |             |
+| ------ | ----------- |
+| E-mail | main@grr.la |
+| Senha  | main@grr.la |
 
-### Recomendamos utilizar as boas práticas do Laravel para a criação desse projeto:
+## Observações finais
 
-- Fazer a validação da API utilizando o Form Request.
-- Documentação faz TODA a diferença!
-- Fazer a camada de transformação da API utilizando o API Resources.
-- Fazer a camada de roteamento utilizando API Resource Routes.
-- Não esqueça dos testes unitários!
-- Fazer a camada de restrição de acesso utilizando as Policies.
-- Disparar o e-mail utilizando as Notifications, e colocar ele em uma fila, para que seja
-  disparado de forma assíncrona.
-- Não se esqueça das FK nas Migrations e das Relations dos Models.
+Alguns problemas que não tive tempo de melhorar, sendo os principais:
 
-## Readme do Repositório
+- Não conheço a fundo o Quasar Frameworl, por conta disso, não consegui implementar a alteração de pagina nos datatables. Um pouco mais de tempo para estudar a documentação e isso seria resolvido.
 
-- Deve conter o título do projeto
-- Uma descrição sobre o projeto em frase
-- Deve conter uma lista com linguagem, framework e/ou tecnologias usadas
-- Como instalar e usar o projeto (instruções)
-- Não esqueça o [.gitignore](https://www.toptal.com/developers/gitignore)
-- Se está usando github pessoal, referencie que é um challenge by coodesh:
+- Não tive tempo o suficiente para criar mais camadas de teste. Criei o básico via rest por acreditar ser o mais importante, mas tenho ciência de testes mockados com injeção de dependência.
+
+- Não tive tempo para criar formatações de dados no datatable, as datas estão sendo exibidas em formato cru.
+
+<br />
+<br />
+
+Muito obrigado!
 
 > This is a challenge by [Coodesh](https://coodesh.com/)
-
-## Finalização e Instruções para a Apresentação
-
-1. Adicione o repositório na avaliação
-2. Verifique se o Readme está bom e faça o commit final;
-3. Ao finalizar a entrega do código, enviar para a avaliação no botão "Enviar Código" na parte superior da avaliação
-4. Apresentar o resultado da sua entrega, você terá as instruções para apresentação após "Enviar Código".
-
-## Suporte
-
-Use o nosso canal no slack: http://bit.ly/32CuOMy para tirar dúvidas sobre o processo ou envie um e-mail para contato@coodesh.com.

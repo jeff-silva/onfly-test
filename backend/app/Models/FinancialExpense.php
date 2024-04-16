@@ -40,6 +40,7 @@ class FinancialExpense extends Model
             $query->where('date', '<', $date_max);
         }
 
+        $query->with(['appUser']);
         return $query;
     }
 
