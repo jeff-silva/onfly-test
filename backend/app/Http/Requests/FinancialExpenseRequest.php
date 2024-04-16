@@ -23,9 +23,9 @@ class FinancialExpenseRequest extends FormRequest
     {
         return [
             'user_id' => ['required', 'exists:app_user,id'],
-            'description' => ['required', 'max:255'],
+            'description' => ['required', 'max:191'],
             'date' => ['date', 'before:now'],
-            'amount' => ['numeric'],
+            'amount' => ['numeric', 'gt:0'],
         ];
     }
 }

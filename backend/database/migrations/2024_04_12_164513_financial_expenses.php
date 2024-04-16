@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('financial_expense', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('description');
+            $table->string('description', 191);
             $table->datetime('date');
             $table->decimal('amount', 10, 2);
             $table->softDeletes();
