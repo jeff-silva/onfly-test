@@ -62,7 +62,6 @@ class AppUserController extends Controller
     {
         $entity = $this->repository->update($request, $id);
         if (!$entity) throw new ApiError(404, 'Entity not found');
-        $entity->update($request->all());
         return new AppUserResource($entity);
     }
 
@@ -74,7 +73,6 @@ class AppUserController extends Controller
     {
         $entity = $this->repository->destroy($id);
         if (!$entity) throw new ApiError(404, 'Entity not found');
-        $entity->delete();
         return new AppUserResource($entity);
     }
 }

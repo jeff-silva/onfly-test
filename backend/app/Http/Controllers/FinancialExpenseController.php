@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Annotations\Openapi;
+use App\Contracts\FinancialExpenseRepositoryInterface;
 use App\Exceptions\ApiError;
 use Illuminate\Http\Request;
 use App\Models\FinancialExpense;
@@ -11,6 +12,10 @@ use App\Http\Resources\FinancialExpenseResource;
 
 class FinancialExpenseController extends Controller
 {
+    public function __construct(private FinancialExpenseRepositoryInterface $repository)
+    {
+    }
+
     #[Openapi\Auth()]
     #[Openapi\Param(['name' => 'page', 'in' => 'query'])]
     #[Openapi\Param(['name' => 'per_page', 'in' => 'query'])]
@@ -19,7 +24,7 @@ class FinancialExpenseController extends Controller
     #[Openapi\Response(200, ['pagination' => 'object', 'data' => 'array'])]
     public function index(Request $request)
     {
-        return FinancialExpense::searchPaginated($request);
+        return $this->repository->index($request);
     }
 
 
@@ -31,7 +36,7 @@ class FinancialExpenseController extends Controller
     #[Openapi\Response(200, ['entity' => 'object'])]
     public function store(FinancialExpenseRequest $request)
     {
-        $entity = FinancialExpense::create($request->all());
+        $entity = $this->repository->store($request);
         return new FinancialExpenseResource($entity);
     }
 
@@ -41,7 +46,7 @@ class FinancialExpenseController extends Controller
     #[Openapi\Response(200, ['entity' => 'object'])]
     public function show($id, Request $request)
     {
-        $entity = FinancialExpense::find($id);
+        $entity = $this->repository->show($id);
         if (!$entity) throw new ApiError(404, 'Entity not found');
         if ($request->user()->cannot('show', $entity)) {
             throw new ApiError(403, 'Sem permissão');
@@ -59,12 +64,11 @@ class FinancialExpenseController extends Controller
     #[Openapi\Response(200, ['entity' => 'object'])]
     public function update(FinancialExpenseRequest $request, $id)
     {
-        $entity = FinancialExpense::find($id);
+        $entity = $this->repository->update($request, $id);
         if (!$entity) throw new ApiError(404, 'Entity not found');
         if ($request->user()->cannot('update', $entity)) {
             throw new ApiError(403, 'Sem permissão');
         }
-        $entity->update($request->all());
         return new FinancialExpenseResource($entity);
     }
 
@@ -74,7 +78,7 @@ class FinancialExpenseController extends Controller
     #[Openapi\Response(200, ['entity' => 'object'])]
     public function destroy($id, Request $request)
     {
-        $entity = FinancialExpense::find($id);
+        $entity = $this->repository->destroy($id);
         if (!$entity) throw new ApiError(404, 'Entity not found');
         if ($request->user()->cannot('update', $entity)) {
             throw new ApiError(403, 'Sem permissão');
