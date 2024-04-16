@@ -43,6 +43,9 @@ class FinancialExpenseController extends Controller
     {
         $entity = FinancialExpense::find($id);
         if (!$entity) throw new ApiError(404, 'Entity not found');
+        if ($request->user()->cannot('show', $entity)) {
+            throw new ApiError(403, 'Sem permissão');
+        }
         return new FinancialExpenseResource($entity);
     }
 
@@ -58,6 +61,9 @@ class FinancialExpenseController extends Controller
     {
         $entity = FinancialExpense::find($id);
         if (!$entity) throw new ApiError(404, 'Entity not found');
+        if ($request->user()->cannot('update', $entity)) {
+            throw new ApiError(403, 'Sem permissão');
+        }
         $entity->update($request->all());
         return new FinancialExpenseResource($entity);
     }
@@ -70,6 +76,9 @@ class FinancialExpenseController extends Controller
     {
         $entity = FinancialExpense::find($id);
         if (!$entity) throw new ApiError(404, 'Entity not found');
+        if ($request->user()->cannot('update', $entity)) {
+            throw new ApiError(403, 'Sem permissão');
+        }
         $entity->delete();
         return new FinancialExpenseResource($entity);
     }

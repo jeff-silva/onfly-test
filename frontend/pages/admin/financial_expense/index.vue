@@ -10,6 +10,7 @@
                     { name: 'description', field: 'description', align: 'left', label: 'Descrição' },
                     { name: 'date', field: 'date', align: 'left', label: 'Data' },
                     { name: 'amount', field: 'amount', align: 'left', label: 'Valor' },
+                    { name: 'user_id', field: 'user_id', align: 'left', label: 'Dono' },
                     { name: 'actions', label: '', width: '100px' },
                 ]"
                 :pagination="{
@@ -23,8 +24,15 @@
             >
                 <template #body-cell-actions="props">
                     <q-td :props="props">
-                        <q-btn flat icon="mode_edit" :to="`/admin/financial_expense/edit?id=${props.row.id}`" />
-                        <!-- <q-btn flat icon="delete" /> -->
+                        <q-btn
+                            v-if="props.row.user_id == app.data.user.id"
+                            flat icon="mode_edit"
+                            :to="`/admin/financial_expense/edit?id=${props.row.id}`"
+                        />
+                        <!-- <q-btn
+                            v-if="props.row.user_id == app.data.user.id"
+                            flat icon="delete"
+                        /> -->
                     </q-td>
                 </template>
             </q-table>
@@ -66,6 +74,8 @@
 </template>
 
 <script setup>
+const app = useApp();
+
 const search = useRequest({
     method: 'get',
     url: 'api://financial_expense',

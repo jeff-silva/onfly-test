@@ -10,6 +10,8 @@
                 <q-toolbar-title v-if="props.title">
                     {{ props.title }}
                 </q-toolbar-title>
+                <q-spacer />
+                <div v-if="app.data.user">Olá {{ app.data.user.name }}</div>
             </q-toolbar>
         </q-header>
 

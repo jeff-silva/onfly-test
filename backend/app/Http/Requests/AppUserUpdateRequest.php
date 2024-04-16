@@ -21,9 +21,10 @@ class AppUserUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        $id = $this->input('id');
         return [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'unique:app_user,email'],
+            'email' => ['required', 'email', "unique:app_user,email,{$id}"],
         ];
     }
 }

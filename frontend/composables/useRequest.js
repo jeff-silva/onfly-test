@@ -8,6 +8,7 @@ export default (options = {}) => {
         params: {},
         data: {},
         response: false,
+        onRequestBefore: () => null,
         onSuccess: () => null,
         onError: () => null,
         ...options
@@ -42,6 +43,7 @@ export default (options = {}) => {
             }
 
             try {
+                options.onRequestBefore();
                 const resp = await axios(axiosOptions);
                 this.response = resp.data;
                 this.success = true;

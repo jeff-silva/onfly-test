@@ -1,10 +1,17 @@
 <template>
     <div>
         <nuxt-layout name="admin" title="Despesas" subtitle="Editar">
-            <div class="row q-col-gutter-lg">
+            <q-banner v-if="load.error" inline-actions class="text-white bg-red">
+                {{ load.error.message }}
+                <template v-slot:action>
+                    <q-btn flat color="white" label="Voltar" to="/admin/financial_expense" />
+                </template>
+            </q-banner>
+
+            <div class="row q-col-gutter-lg" v-if="!load.error">
                 <div class="col-12 col-lg-6">
-                    <app-user-select label="Usuário" v-model="save.data.user_id" />
-                    <br>
+                    <!-- <app-user-select label="Usuário" v-model="save.data.user_id" />
+                    <br> -->
 
                     <q-input label="Descrição" v-model="save.data.description" />
                     <br>
@@ -51,6 +58,7 @@
             <template #sidebar>
                 <div class="column" style="gap: 15px;">
                     <q-btn
+                        v-if="!load.error"
                         label="Salvar"
                         :loading="save.busy"
                         @click="save.submit()"
@@ -67,6 +75,7 @@
 <script setup>
 const route = useRoute();
 const router = useRouter();
+const app = useApp();
 
 const save = useRequest({
     method: () => route.query.id ? 'put' : 'post',
@@ -74,6 +83,10 @@ const save = useRequest({
         return route.query.id ? `api://financial_expense/${route.query.id}` : 'api://financial_expense';
     },
     data: {},
+    onRequestBefore() {
+        if (save.data.user_id) return;
+        save.data.user_id = app.data.user.id;
+    },
     onSuccess: ({ data }) => {
         const query = { ...route.query, id: data.data.id };
         router.push({ query });
