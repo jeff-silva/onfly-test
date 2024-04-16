@@ -49,8 +49,8 @@
                             to: search.params.date_max,
                         }"
                         @update:modelValue="(ev) => {
-                            search.params.date_min = `${ev.from} 00:00:00`;
-                            search.params.date_max = `${ev.to} 23:59:59`;
+                            search.params.date_min = `${ev.from}T00:00:00`;
+                            search.params.date_max = `${ev.to}T23:59:59`;
                         }"
                     />
                     <q-btn

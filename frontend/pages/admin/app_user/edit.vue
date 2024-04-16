@@ -3,15 +3,31 @@
         <nuxt-layout name="admin" title="Usuários" subtitle="Editar">
             <div class="row">
                 <div class="col-12 col-md-6 q-pa-sm">
-                    <q-input label="Nome" v-model="save.data.name" />
+                    <q-input
+                        label="Nome"
+                        v-model="save.data.name"
+                        :error-message="save.getErrors('name', false)"
+                        :error="save.hasError('name')"
+                    />
                 </div>
                 
                 <div class="col-12 col-md-6 q-pa-sm">
-                    <q-input label="E-mail" v-model="save.data.email" />
+                    <q-input
+                        label="E-mail"
+                        v-model="save.data.email"
+                        :error-message="save.getErrors('email', false)"
+                        :error="save.hasError('email')"
+                    />
                 </div>
                 
                 <div class="col-12 col-md-6 q-pa-sm">
-                    <q-input label="Senha" v-model="save.data.password" type="password" />
+                    <q-input
+                        label="Senha"
+                        type="password"
+                        v-model="save.data.password"
+                        :error-message="save.getErrors('password', false)"
+                        :error="save.hasError('password')"
+                    />
                 </div>
             </div>
             

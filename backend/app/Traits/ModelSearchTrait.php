@@ -45,7 +45,7 @@ trait ModelSearchTrait
                 'total' => $pagination['total'],
             ],
             'data' => $pagination['data'],
-            // 'sql' => $query->toSql(),
+            'sql' => $query->toSql(),
         ];
     }
 

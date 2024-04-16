@@ -37,7 +37,7 @@ class FinancialExpense extends Model
         }
 
         if ($date_max = $request->input('date_max')) {
-            $query->where('date', '>', $date_max);
+            $query->where('date', '<', $date_max);
         }
 
         return $query;

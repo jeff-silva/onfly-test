@@ -13,22 +13,24 @@
                     <!-- <app-user-select label="Usuário" v-model="save.data.user_id" />
                     <br> -->
 
-                    <q-input label="Descrição" v-model="save.data.description" />
+                    <q-input
+                        label="Descrição"
+                        v-model="save.data.description"
+                        :error-message="save.getErrors('description', false)"
+                        :error="save.hasError('description')"
+                    />
                     <br>
 
-                    <q-field label="Valor">
-                        <template #control>
-                            <input
-                                class="q-field__input text-right"
-                                v-maska="'money'"
-                                :value="parseFloat(save.data.amount||0).toFixed(2)"
-                                @input="(ev) => {
-                                    save.data.amount = parseInt(ev.target.value.replace(/[^0-9]/g, ''))/100;
-                                }"
-                            />
-                        </template>
-                    </q-field>
+                    <q-input
+                        label="Price with 2 decimals"
+                        v-model="save.data.amount"
+                        mask="#.##"
+                        fill-mask="0"
+                        reverse-fill-mask
+                        input-class="text-right"
+                    />
                 </div>
+                
                 <div class="col-12 col-lg-6">
                     <div>Data de lançamento:</div>
                     <br>
@@ -38,6 +40,11 @@
                         mask="YYYY-MM-DD 00:00:00"
                         v-model="save.data.date"
                     />
+                    <div
+                        class="text-red q-mt-sm"
+                        v-if="save.hasError('date')"
+                        v-html="save.getErrors('date', false)"
+                    ></div>
                 </div>
             </div>
 
