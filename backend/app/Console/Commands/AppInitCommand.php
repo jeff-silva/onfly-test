@@ -26,6 +26,7 @@ class AppInitCommand extends Command
      */
     public function handle()
     {
+        Artisan::call('optimize');
         Artisan::call('migrate');
         Artisan::call('db:seed');
     }

@@ -8,7 +8,6 @@
                 :columns="[
                     { name: 'name', field: 'name', align: 'left', label: 'Nome' },
                     { name: 'email', field: 'email', align: 'left', label: 'E-mail' },
-                    { name: 'group', field: 'group', align: 'left', label: 'Grupo' },
                     { name: 'actions', label: '', width: '100px' },
                 ]"
                 :pagination="{

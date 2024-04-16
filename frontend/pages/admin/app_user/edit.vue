@@ -13,10 +13,6 @@
                 <div class="col-12 col-md-6 q-pa-sm">
                     <q-input label="Senha" v-model="save.data.password" type="password" />
                 </div>
-                
-                <div class="col-12 col-md-6 q-pa-sm">
-                    <app-user-groups-select label="Grupo" v-model="save.data.group" />
-                </div>
             </div>
             
             <template #actions>

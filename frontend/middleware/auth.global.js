@@ -1,7 +1,7 @@
 import useApp from "@/composables/useApp";
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
-  if (to.path.startsWith('/admin')) {
+  if (to.path == '/admin' || to.path.startsWith('/admin')) {
     const app = useApp();
     
     try {
@@ -10,9 +10,9 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         clearInterval(i);
 
         if (app.ready && app.data && !app.data.user) {
-          return navigateTo(`/auth?redirect=${to.fullPath}`);
+          navigateTo(`/auth?redirect=${to.fullPath}`);
         }
-      }, 10);
+      }, 5);
     } catch(err) {}
   }
 });

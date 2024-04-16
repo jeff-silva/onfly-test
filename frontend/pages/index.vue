@@ -1,7 +1,6 @@
 <template>
     <div>
-        <nuxt-layout name="admin" title="Admin Dashboard">
-            <div>Dashboard content</div>
-        </nuxt-layout>
+        <q-btn label="Login" to="/auth"/>
+        <q-btn label="Admin" to="/admin"/>
     </div>
 </template>
